@@ -67,8 +67,8 @@ def index():
                 <button type="submit">Calculate</button>
             </form>
             <div id="results">
-                <p id="gain">Gain:</p>
-                <p id="roi">ROI:</p>
+                <p id="gain">Gain: </p>
+                <p id="roi">ROI: %</p>
             </div>
         </div>
         <script>
