@@ -11,7 +11,7 @@ def index():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MAG Training Calculator</title>
+        <title>ROI Calculator</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -34,27 +34,24 @@ def index():
             }
             form {
                 display: flex;
-                flex-direction: column;
-            }
-            label {
-                margin-bottom: 5px;
+                align-items: center;
             }
             input {
-                margin-bottom: 10px;
+                margin-right: 10px;
                 padding: 8px;
                 border: 1px solid #ccc;
                 border-radius: 4px;
             }
             button {
                 padding: 10px;
-                background: #007bff;
-                color: white;
-                border: none;
+                background: white;
+                color: black;
+                border: 1px solid #ccc;
                 border-radius: 4px;
                 cursor: pointer;
             }
             button:hover {
-                background: #0056b3;
+                background: #f4f4f4;
             }
             #results {
                 margin-top: 20px;
@@ -63,11 +60,8 @@ def index():
     </head>
     <body>
         <div class="container">
-            <h1>ROI Calculator</h1>
             <form id="calculator-form">
-                <label for="returned_amount">Returned Amount:</label>
                 <input type="text" id="returned_amount" name="returned_amount" placeholder="Returned Amount" required>
-                <label for="invested_amount">Invested Amount:</label>
                 <input type="text" id="invested_amount" name="invested_amount" placeholder="Invested Amount" required>
                 <button type="submit">Calculate</button>
             </form>
@@ -116,6 +110,3 @@ def calculate():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
