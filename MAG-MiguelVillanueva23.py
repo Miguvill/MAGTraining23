@@ -11,7 +11,7 @@ def index():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>ROI Calculator</title>
+        <title>MAG Training Calculator</title>
         <style>
             body {
                 font-family: Arial, sans-serif;
@@ -66,9 +66,9 @@ def index():
             <h1>ROI Calculator</h1>
             <form id="calculator-form">
                 <label for="returned_amount">Returned Amount:</label>
-                <input type="text" id="returned_amount" name="returned_amount" required>
+                <input type="text" id="returned_amount" name="returned_amount" placeholder="Returned Amount" required>
                 <label for="invested_amount">Invested Amount:</label>
-                <input type="text" id="invested_amount" name="invested_amount" required>
+                <input type="text" id="invested_amount" name="invested_amount" placeholder="Invested Amount" required>
                 <button type="submit">Calculate</button>
             </form>
             <div id="results">
@@ -116,5 +116,6 @@ def calculate():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 
