@@ -55,20 +55,20 @@ def index():
             }
             #results {
                 margin-top: 20px;
-                display: none;
             }
         </style>
     </head>
     <body>
         <div class="container">
+            <h1>ROI Calculator</h1>
             <form id="calculator-form">
                 <input type="text" id="returned_amount" name="returned_amount" placeholder="Returned Amount" required>
                 <input type="text" id="invested_amount" name="invested_amount" placeholder="Invested Amount" required>
                 <button type="submit">Calculate</button>
             </form>
             <div id="results">
-                <p id="gain"></p>
-                <p id="roi"></p>
+                <p id="gain">Gain:</p>
+                <p id="roi">ROI:</p>
             </div>
         </div>
         <script>
@@ -85,9 +85,8 @@ def index():
                 })
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('gain').textContent = `Gain: (${data.gain.toFixed(2)})`;
-                    document.getElementById('roi').textContent = `ROI: (${data.roi.toFixed(2)})%`;
-                    document.getElementById('results').style.display = 'block';
+                    document.getElementById('gain').textContent = `Gain: ${data.gain.toFixed(2)}`;
+                    document.getElementById('roi').textContent = `ROI: ${data.roi.toFixed(2)}%`;
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -112,5 +111,3 @@ def calculate():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
