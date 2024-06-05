@@ -1,43 +1,120 @@
-import tkinter as tk
-from tkinter import messagebox
+from flask import Flask, request, jsonify
 
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    # HTML content with embedded CSS
+    message = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ROI Calculator</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            .container {
+                background: white;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            h1 {
+                margin-bottom: 20px;
+            }
+            form {
+                display: flex;
+                flex-direction: column;
+            }
+            label {
+                margin-bottom: 5px;
+            }
+            input {
+                margin-bottom: 10px;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            button {
+                padding: 10px;
+                background: #007bff;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            button:hover {
+                background: #0056b3;
+            }
+            #results {
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>ROI Calculator</h1>
+            <form id="calculator-form">
+                <label for="returned_amount">Returned Amount:</label>
+                <input type="text" id="returned_amount" name="returned_amount" required>
+                <label for="invested_amount">Invested Amount:</label>
+                <input type="text" id="invested_amount" name="invested_amount" required>
+                <button type="submit">Calculate</button>
+            </form>
+            <div id="results">
+                <p id="gain"></p>
+                <p id="roi"></p>
+            </div>
+        </div>
+        <script>
+            document.getElementById('calculator-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const returnedAmount = document.getElementById('returned_amount').value;
+                const investedAmount = document.getElementById('invested_amount').value;
+                fetch('/calculate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ returned_amount: returnedAmount, invested_amount: investedAmount }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('gain').textContent = `Gain: ${data.gain.toFixed(2)}`;
+                    document.getElementById('roi').textContent = `ROI: ${data.roi.toFixed(2)}%`;
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+            });
+        </script>
+    </body>
+    </html>
+    """
+    return message
+
+@app.route('/calculate', methods=['POST'])
 def calculate():
-    try:
-        returned_amount = float(returned_amount_entry.get())
-        invested_amount = float(invested_amount_entry.get())
-        
-        gain = returned_amount - invested_amount
-        roi = ((returned_amount - invested_amount) / invested_amount) * 100
-        
-        gain_label.config(text=f"Gain: {gain:.2f}")
-        roi_label.config(text=f"ROI: {roi:.2f}%")
-    except ValueError:
-        messagebox.showerror("Invalid input", "Please enter valid numbers for both fields")
+    data = request.json
+    returned_amount = float(data['returned_amount'])
+    invested_amount = float(data['invested_amount'])
+    
+    gain = returned_amount - invested_amount
+    roi = ((returned_amount - invested_amount) / invested_amount) * 100
+    
+    return jsonify({'gain': gain, 'roi': roi})
 
-# Create the main window
-root = tk.Tk()
-root.title("ROI Calculator")
+if __name__ == '__main__':
+    app.run(debug=True)
 
-# Create and place labels and entries
-tk.Label(root, text="Returned Amount:").grid(row=0, column=0, padx=10, pady=10)
-returned_amount_entry = tk.Entry(root)
-returned_amount_entry.grid(row=0, column=1, padx=10, pady=10)
-
-tk.Label(root, text="Invested Amount:").grid(row=1, column=0, padx=10, pady=10)
-invested_amount_entry = tk.Entry(root)
-invested_amount_entry.grid(row=1, column=1, padx=10, pady=10)
-
-# Create and place the Calculate button
-calculate_button = tk.Button(root, text="Calculate", command=calculate)
-calculate_button.grid(row=2, column=0, columnspan=2, pady=10)
-
-# Create and place labels for displaying results
-gain_label = tk.Label(root, text="Gain: ")
-gain_label.grid(row=3, column=0, columnspan=2, pady=5)
-
-roi_label = tk.Label(root, text="ROI: ")
-roi_label.grid(row=4, column=0, columnspan=2, pady=5)
-
-# Run the application
-root.mainloop()
 
