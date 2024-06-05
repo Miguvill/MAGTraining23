@@ -61,7 +61,6 @@ def index():
     </head>
     <body>
         <div class="container">
-            <h1>ROI Calculator</h1>
             <form id="calculator-form">
                 <input type="text" id="returned_amount" name="returned_amount" placeholder="Returned Amount" required>
                 <input type="text" id="invested_amount" name="invested_amount" placeholder="Invested Amount" required>
