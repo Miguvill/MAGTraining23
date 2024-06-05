@@ -85,8 +85,8 @@ def index():
                 })
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('gain').textContent = `Gain: ${data.gain.toFixed(2)}`;
-                    document.getElementById('roi').textContent = `ROI: ${data.roi.toFixed(2)}%`;
+                    document.getElementById('gain').textContent = `Gain: (${data.gain.toFixed(2)})`;
+                    document.getElementById('roi').textContent = `ROI: (${data.roi.toFixed(2)})%`;
                     document.getElementById('results').style.display = 'block';
                 })
                 .catch((error) => {
@@ -105,11 +105,12 @@ def calculate():
     returned_amount = float(data['returned_amount'])
     invested_amount = float(data['invested_amount'])
     
-    gain = abs(returned_amount - invested_amount)
-    roi = abs(((returned_amount - invested_amount) / invested_amount) * 100)
+    gain = returned_amount - invested_amount
+    roi = ((returned_amount - invested_amount) / invested_amount) * 100
     
     return jsonify({'gain': gain, 'roi': roi})
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
