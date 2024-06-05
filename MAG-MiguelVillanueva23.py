@@ -55,11 +55,13 @@ def index():
             }
             #results {
                 margin-top: 20px;
+                display: none;
             }
         </style>
     </head>
     <body>
         <div class="container">
+            <h1>ROI Calculator</h1>
             <form id="calculator-form">
                 <input type="text" id="returned_amount" name="returned_amount" placeholder="Returned Amount" required>
                 <input type="text" id="invested_amount" name="invested_amount" placeholder="Invested Amount" required>
@@ -86,6 +88,7 @@ def index():
                 .then(data => {
                     document.getElementById('gain').textContent = `Gain: ${data.gain.toFixed(2)}`;
                     document.getElementById('roi').textContent = `ROI: ${data.roi.toFixed(2)}%`;
+                    document.getElementById('results').style.display = 'block';
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -103,10 +106,11 @@ def calculate():
     returned_amount = float(data['returned_amount'])
     invested_amount = float(data['invested_amount'])
     
-    gain = returned_amount - invested_amount
-    roi = ((returned_amount - invested_amount) / invested_amount) * 100
+    gain = abs(returned_amount - invested_amount)
+    roi = abs(((returned_amount - invested_amount) / invested_amount) * 100)
     
     return jsonify({'gain': gain, 'roi': roi})
 
 if __name__ == '__main__':
     app.run(debug=True)
+
